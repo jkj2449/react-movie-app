@@ -3,10 +3,12 @@ import { API_KEY, API_URL, IMAGE_URL } from '../../Config'
 import MainImage from '../LandingPage/Sections/MainImage'
 import MovieInfo from './Sections/MovieInfo'
 import GridCards from "../commons/GridCard"
+import Favorite from './Sections/Favorite'
 import { Row } from "antd"
+import { Button } from 'antd'
 
 function MovieDetail(props) {
-    let movieId = props.match.params.movieId
+    const movieId = props.match.params.movieId
     const [Movie, setMovie] = useState([])
     const [Casts, setCasts] = useState([])
     const [ActorToggle, setActorToggle] = useState(false)
@@ -33,7 +35,7 @@ function MovieDetail(props) {
     }
 
     return (
-        <div style={{ width: '100%', margin: '0' }}>
+        <div>
 
             <MainImage
                 image={`${IMAGE_URL}/w1280${Movie.backdrop_path}`}
@@ -42,6 +44,13 @@ function MovieDetail(props) {
             />
 
             <div style={{ width: '85%', margin: '1rem auto'}}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end'}}>
+                    <Favorite
+                        movieInfo={Movie}
+                        movieId={movieId}
+                        userFrom={localStorage.getItem('userId')}
+                    />
+                </div>
 
                 <MovieInfo
                     movie={Movie}
@@ -50,7 +59,7 @@ function MovieDetail(props) {
                 <br/>
 
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '2rem'}}>
-                    <button onClick={toggleActorView}> Toggle Actor View </button>
+                    <Button onClick={toggleActorView}> Toggle Actor View </Button>
                 </div>
 
                 {ActorToggle &&
@@ -73,7 +82,7 @@ function MovieDetail(props) {
                 </Row>
 
                 }
-                
+
             </div>
         </div>
     )
